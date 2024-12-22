@@ -6,7 +6,7 @@ import pygame
 pygame.init()
 pygame.display.set_caption('survival')
 size = width, height = 1280, 720
-pixsel = height // 720
+pixsel = height // 360
 screen = pygame.display.set_mode(size)
 all_sprites = pygame.sprite.Group()
 pygame.font.init()
@@ -32,17 +32,23 @@ def load_image(name, puth, colorkey=None): ##Загрузка изображен
 
 class Map:
     def __init__(self):
-        self.x = 5000
-        self.y = 5000
+        self.x = 10000
+        self.y = 10000
 
 class Player(pygame.sprite.Sprite): ##Класс игрока
-    image = load_image("forester.png", "\\player")
+    image_w = load_image("forester_w.png", "\\player")
+    image_w = pygame.transform.scale(image_w, (60 * pixsel, 60 * pixsel))
+    image_e = load_image("forester_e.png", "\\player")
+    image_e = pygame.transform.scale(image_e, (60 * pixsel, 60 * pixsel))
+    image_s = load_image("forester_s.png", "\\player")
+    image_s = pygame.transform.scale(image_s, (60 * pixsel, 60 * pixsel))
+    image_n = load_image("forester_n.png", "\\player")
+    image_n = pygame.transform.scale(image_n, (60 * pixsel, 60 * pixsel))
 
     def __init__(self, *group):
         super().__init__(*group)
         global pixsel
-        self.image = Player.image
-        self.image = pygame.transform.scale(self.image, (60 * pixsel, 60 * pixsel))
+        self.image = Player.image_w
         self.rect = self.image.get_rect()
         self.run = [0, 0, 0, 0]
         self.x, self.y = 0, 0
@@ -54,18 +60,22 @@ class Player(pygame.sprite.Sprite): ##Класс игрока
             self.run[0] = 0
         if args and args[0].type == pygame.KEYDOWN and pygame.key.name(args[0].key) == 'w':
             self.run[0] = 1
+            self.image = Player.image_n
         if args and args[0].type == pygame.KEYUP and pygame.key.name(args[0].key) == 's':
             self.run[1] = 0
         if args and args[0].type == pygame.KEYDOWN and pygame.key.name(args[0].key) == 's':
             self.run[1] = 1
+            self.image = Player.image_s
         if args and args[0].type == pygame.KEYUP and pygame.key.name(args[0].key) == 'd':
             self.run[2] = 0
         if args and args[0].type == pygame.KEYDOWN and pygame.key.name(args[0].key) == 'd':
             self.run[2] = 1
+            self.image = Player.image_e
         if args and args[0].type == pygame.KEYUP and pygame.key.name(args[0].key) == 'a':
             self.run[3] = 0
         if args and args[0].type == pygame.KEYDOWN and pygame.key.name(args[0].key) == 'a':
             self.run[3] = 1
+            self.image = Player.image_w
         if self.run[0] == 1:
             self.y -= v // FPS
         if self.run[1] == 1:
@@ -76,7 +86,7 @@ class Player(pygame.sprite.Sprite): ##Класс игрока
             self.x -= v // FPS
 
 
-class Blocks(pygame.sprite.Sprite): ## класс блока - елки
+class Blocks(pygame.sprite.Sprite):    ##класс блока - елки
     image = load_image("tree.png", "\\blocks\\tree")
     image2 = load_image("stump.png", "\\blocks\\tree")
 
@@ -93,20 +103,20 @@ class Blocks(pygame.sprite.Sprite): ## класс блока - елки
     def update(self, *args):
         self.rect.x = self.x - player.x + 300 * pixsel
         self.rect.y = self.y - player.y - 200 * pixsel
-        #if (self.rect.x + self.rect.w < 0 or self.rect.x - self.rect.w > 1280 * pixsel or
-                #self.rect.y + self.rect.h < 0 or self.rect.y - self.rect.h > 720 * pixsel):
-        if abs(self.rect.x - 640 * pixsel + 50) < 30 * pixsel and abs(self.rect.y - 360 * pixsel + 100) < 30 * pixsel:
+        if (abs(self.rect.x - 320 * pixsel + 50 * pixsel) < 30 * pixsel and
+                abs(self.rect.y - 180 * pixsel + 100 * pixsel) < 30 * pixsel):
             self.image = Blocks.image2
             self.image = pygame.transform.scale(self.image, (200 * pixsel, 200 * pixsel))
 
 
-
-if __name__ == '__main__': ## Начало работы программы
+##Начало работы программы
+if __name__ == '__main__':
     running = True
     map = Map()
     for i in range(800):
         Blocks(all_sprites)
     player = Player(all_sprites)
+    print(*all_sprites)
     FPS = 100
     v = 500
     clock = pygame.time.Clock()
