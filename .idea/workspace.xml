@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d435b0b-598b-4e46-b70e-55bf987f6e36" name="Changes" comment="0.1.02">
+    <list default="true" id="8d435b0b-598b-4e46-b70e-55bf987f6e36" name="Changes" comment="hotfix/0.1.03">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -127,7 +127,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734861220193</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="hotfix/0.1.03">
+      <option name="closed" value="true" />
+      <created>1734866647957</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1734866647957</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -148,6 +156,7 @@
     <MESSAGE value="0.1.0" />
     <MESSAGE value="0.1.1" />
     <MESSAGE value="0.1.02" />
-    <option name="LAST_COMMIT_MESSAGE" value="0.1.02" />
+    <MESSAGE value="hotfix/0.1.03" />
+    <option name="LAST_COMMIT_MESSAGE" value="hotfix/0.1.03" />
   </component>
 </project>

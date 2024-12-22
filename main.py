@@ -95,7 +95,7 @@ class Player(pygame.sprite.Sprite): ##Класс игрока
             self.x -= v // FPS
         if args and args[0].type == TEMPEVENT:
             if (abs(bonfire.rect.x - 320 * pixsel) < 80 * pixsel and
-                    abs(bonfire.rect.y - 180 * pixsel) < 80 * pixsel):
+                    abs(bonfire.rect.y - 180 * pixsel) < 80 * pixsel and bonfire.run > 1):
                 self.temp = min(self.temp + bonfire.run, 100)
             else:
                 if self.temp == 0:
@@ -104,19 +104,26 @@ class Player(pygame.sprite.Sprite): ##Класс игрока
                     self.temp = max(self.temp - 1.25, 0)
 
 
-class Blocks(pygame.sprite.Sprite):    ##класс блока - елки
+class Christmas_Tree(pygame.sprite.Sprite):    ##класс блока - елки
     image = load_image("tree.png", "\\blocks\\tree")
     image2 = load_image("stump.png", "\\blocks\\tree")
 
     def __init__(self, *group):
         super().__init__(*group)
         global pixsel
-        self.image = Blocks.image
+        self.image = Christmas_Tree.image
         self.image = pygame.transform.scale(self.image, (200 * pixsel, 200 * pixsel))
         self.rect = self.image.get_rect()
         w, h = self.rect.w, self.rect.h
-        self.x = random.randrange(int(-0.5 * map.x), int(0.5 * map.x))
-        self.y = random.randrange(int(-0.5 * map.y), int(0.5 * map.y))
+        k = True
+        while k:
+            x = random.randrange(int(-0.5 * map.x), int(0.5 * map.x))
+            y = random.randrange(int(-0.5 * map.y), int(0.5 * map.y))
+            if (abs(sorted(all_sprites, key=lambda sprite: sprite.rect.y)[0].rect.y - y) > 100 and
+                    abs(sorted(all_sprites, key=lambda sprite: sprite.rect.x)[0].rect.x - x) > 100):
+                self.x = x
+                self.y = y
+                k = False
         self.chopped = False
 
     def update(self, *args):
@@ -124,7 +131,7 @@ class Blocks(pygame.sprite.Sprite):    ##класс блока - елки
         self.rect.y = self.y - player.y - 200 * pixsel
         if (abs(self.rect.x - 320 * pixsel + 50 * pixsel) < 30 * pixsel and
                 abs(self.rect.y - 180 * pixsel + 100 * pixsel) < 30 * pixsel and not self.chopped):
-            self.image = Blocks.image2
+            self.image = Christmas_Tree.image2
             self.image = pygame.transform.scale(self.image, (200 * pixsel, 200 * pixsel))
             player.count = True
             self.chopped = True
@@ -150,7 +157,7 @@ class Bonfire(pygame.sprite.Sprite):
         self.image = Bonfire.image_3
         self.rect = self.image.get_rect()
         self.run = 3
-        self.x, self.y = 0, 0
+        self.x, self.y = 0, 400 * pixsel
 
     def update(self, *args):
         global BONFIREEVENT
@@ -158,8 +165,8 @@ class Bonfire(pygame.sprite.Sprite):
         self.rect.y = self.y - player.y - 200 * pixsel
         watch = False
         if (args and args[0].type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(args[0].pos) and player.count
-                and abs(self.rect.x - 320 * pixsel) < 30 * pixsel and
-                abs(self.rect.y - 180 * pixsel) < 30 * pixsel and self.run < 5):
+                and abs(self.rect.x - 320 * pixsel) < 60 * pixsel and
+                abs(self.rect.y - 200 * pixsel) < 60 * pixsel and self.run < 5):
             player.count = False
             self.run = min(self.run + 1, 5)
             watch = True
@@ -187,7 +194,7 @@ if __name__ == '__main__':
     time = 0
     map = Map()
     for i in range(difficult[0] * 100):
-        Blocks(all_sprites)
+        Christmas_Tree(all_sprites)
     player = Player(all_sprites)
     print(*all_sprites)
     bonfire = Bonfire(all_sprites)
@@ -208,7 +215,9 @@ if __name__ == '__main__':
                 all_sprites.update(event)
         screen.fill((100, 100, 100))
         clock.tick(FPS)
-        all_sprites.draw(screen)
+        sorted_sprites = sorted(all_sprites, key=lambda sprite: sprite.rect.y + sprite.rect.h)
+        for sprite in sorted_sprites:
+            screen.blit(sprite.image, sprite.rect)
         all_sprites.update()
         screen.blit(Font.render(f'x: {player.x} y: {player.y}', 1, (255, 255, 255)), (10, 10))
         screen.blit(Font.render(f'hp: {player.hp}, temp: {player.temp}',
