@@ -101,7 +101,7 @@ class Player(pygame.sprite.Sprite): ##Класс игрока
                 if self.temp == 0:
                     self.hp = max(self.hp - 1.25, 0)
                 else:
-                    self.temp = max(self.temp - 1.25w, 0)
+                    self.temp = max(self.temp - 1.25, 0)
 
 
 class Blocks(pygame.sprite.Sprite):    ##класс блока - елки
@@ -117,15 +117,17 @@ class Blocks(pygame.sprite.Sprite):    ##класс блока - елки
         w, h = self.rect.w, self.rect.h
         self.x = random.randrange(int(-0.5 * map.x), int(0.5 * map.x))
         self.y = random.randrange(int(-0.5 * map.y), int(0.5 * map.y))
+        self.chopped = False
 
     def update(self, *args):
         self.rect.x = self.x - player.x + 300 * pixsel
         self.rect.y = self.y - player.y - 200 * pixsel
         if (abs(self.rect.x - 320 * pixsel + 50 * pixsel) < 30 * pixsel and
-                abs(self.rect.y - 180 * pixsel + 100 * pixsel) < 30 * pixsel):
+                abs(self.rect.y - 180 * pixsel + 100 * pixsel) < 30 * pixsel and not self.chopped):
             self.image = Blocks.image2
             self.image = pygame.transform.scale(self.image, (200 * pixsel, 200 * pixsel))
             player.count = True
+            self.chopped = True
 
 
 class Bonfire(pygame.sprite.Sprite):
