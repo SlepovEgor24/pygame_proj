@@ -15,6 +15,8 @@ path = pygame.font.match_font("arial")
 Font = pygame.font.Font(path, 25)
 BONFIREEVENT = pygame.USEREVENT + 1
 pygame.time.set_timer(BONFIREEVENT, difficult[1] * 1000)
+TEMPEVENT = pygame.USEREVENT + 2
+pygame.time.set_timer(TEMPEVENT, difficult[1] * 25)
 
 
 def load_image(name, puth, colorkey=None): ##Загрузка изображений
@@ -58,8 +60,11 @@ class Player(pygame.sprite.Sprite): ##Класс игрока
         self.rect.x = width // 2
         self.rect.y = height // 2
         self.count = False
+        self.hp = 100
+        self.temp = 50
 
     def update(self, *args):
+        global TEMPEVENT
         if args and args[0].type == pygame.KEYUP and pygame.key.name(args[0].key) == 'w':
             self.run[0] = 0
         if args and args[0].type == pygame.KEYDOWN and pygame.key.name(args[0].key) == 'w':
@@ -88,6 +93,15 @@ class Player(pygame.sprite.Sprite): ##Класс игрока
             self.x += v // FPS
         if self.run[3] == 1:
             self.x -= v // FPS
+        if args and args[0].type == TEMPEVENT:
+            if (abs(bonfire.rect.x - 320 * pixsel) < 80 * pixsel and
+                    abs(bonfire.rect.y - 180 * pixsel) < 80 * pixsel):
+                self.temp = min(self.temp + bonfire.run, 100)
+            else:
+                if self.temp == 0:
+                    self.hp = max(self.hp - 1.25, 0)
+                else:
+                    self.temp = max(self.temp - 1.25w, 0)
 
 
 class Blocks(pygame.sprite.Sprite):    ##класс блока - елки
@@ -188,13 +202,15 @@ if __name__ == '__main__':
                 all_sprites.update(event)
             if event.type == pygame.KEYUP:
                 all_sprites.update(event)
-            if event.type == BONFIREEVENT:
+            if event.type == BONFIREEVENT or event.type == TEMPEVENT:
                 all_sprites.update(event)
         screen.fill((100, 100, 100))
         clock.tick(FPS)
         all_sprites.draw(screen)
         all_sprites.update()
         screen.blit(Font.render(f'x: {player.x} y: {player.y}', 1, (255, 255, 255)), (10, 10))
+        screen.blit(Font.render(f'hp: {player.hp}, temp: {player.temp}',
+                                1, (255, 255, 255)), (10, 30))
         time += 1
         pygame.display.set_caption(f'survival {time // FPS // 60}:{time//FPS % 60}')
         pygame.display.flip()

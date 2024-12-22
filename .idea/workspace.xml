@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d435b0b-598b-4e46-b70e-55bf987f6e36" name="Changes" comment="0.1.0">
+    <list default="true" id="8d435b0b-598b-4e46-b70e-55bf987f6e36" name="Changes" comment="0.1.1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
@@ -111,7 +111,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734854735676</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="0.1.1">
+      <option name="closed" value="true" />
+      <created>1734859510260</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1734859510260</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -130,6 +138,7 @@
     <MESSAGE value="2player + world + trees + cutting" />
     <MESSAGE value="2player + world + trees + cutting 21.12.2024" />
     <MESSAGE value="0.1.0" />
-    <option name="LAST_COMMIT_MESSAGE" value="0.1.0" />
+    <MESSAGE value="0.1.1" />
+    <option name="LAST_COMMIT_MESSAGE" value="0.1.1" />
   </component>
 </project>
